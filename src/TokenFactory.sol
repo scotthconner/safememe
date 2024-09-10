@@ -2,6 +2,7 @@
 pragma solidity ^0.8.23;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 
 /**
  * TokenFactory
@@ -27,7 +28,23 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * but get the immediate benefits of global liquidity with some sniper safeguards built in. 
  */
 contract TokenFactory {
+    // Need a reference to the uniswap v2 router this program will use.
+    address                  public  uniswapV2Router;
+
     // The registry index for all of the launched tokens
     mapping(address => bool) public  isTokenVerified;       // quick lookup and verification
-    address[]                private launchedTokens;        // we want a full index of every token 
+    address[]                private launchedTokens;        // we want a full index of every token
+
+    /**
+     * Constructor
+     *
+     * Will take a uniswap v2 router. Must not be null.
+     * You must be careful because this contract is immutable.
+     * Don't fuck it up.
+     * 
+     * @param _uniswapV2Router the address of the uniswap v2 router you are going to use.
+     */
+    constructor(address _uniswapV2Router) {
+        uniswapV2Router = _uniswapV2Router;
+    }
 }
