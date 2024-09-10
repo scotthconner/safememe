@@ -27,5 +27,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  * but get the immediate benefits of global liquidity with some sniper safeguards built in. 
  */
 contract TokenFactory {
-
+    // The registry index for all of the launched tokens
+    mapping(address => bool) public  isTokenVerified;       // quick lookup and verification
+    address[]                private launchedTokens;        // we want a full index of every token 
 }
