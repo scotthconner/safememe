@@ -31,6 +31,18 @@ import "lib/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
  * but get the immediate benefits of global liquidity with some sniper safeguards built in. 
  */
 contract TokenFactory {
+    //////////////////////////////////////////////////
+    // Events 
+    //////////////////////////////////////////////////
+    
+    
+    //////////////////////////////////////////////////
+    // Storage 
+    //////////////////////////////////////////////////
+        
+    // Prevent outright spam and feed the dev (.001 ETH)
+    uint256 public immutable LAUNCH_FEE = 1 ether / 1000;
+        
     // used for token pagination
     uint256 public immutable PAGE_SIZE = 20;                // this is arbitrary, which means its wrong. 
     
@@ -53,6 +65,10 @@ contract TokenFactory {
     mapping(address => uint256) public  tokenLaunchBlock;       // quick lookup and verification
     mapping(address => address) public  tokenDevelopers;        // pre-horizon burn/sell permissions
     address[]                   private launchedTokens;         // we want a full index of every token
+    
+    //////////////////////////////////////////////////
+    // Methods 
+    //////////////////////////////////////////////////
 
     /**
      * Constructor
@@ -163,6 +179,18 @@ contract TokenFactory {
         require(block.number <= tokenLaunchBlock[token] + SNIPER_HORIZON, 'TOO_LATE');
 
         // sell all of the tokens of that type that are sitting in this contract 
+    }
+
+    /**
+     * burnSupply
+     *
+     * This function can either be called by the dev before the horizon,
+     * or by anyone after the horizon.
+     *
+     * @param token the token you want to burn the remaining supply for
+     */
+    function burnSupply(address token) external {
+        
     }
 
     //////////////////////////////////////////////////
