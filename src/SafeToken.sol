@@ -13,13 +13,25 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  */
 contract SafeToken is ERC20 {
     /**
-     * Constructor
+     * consructor 
      *
-     * @param _name   the name of the token
-     * @param _symbol the ticker of the token
+     * @param name   the name of the token
+     * @param symbol the ticker of the token
      */
-    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) {
+    function initialize(string memory name, string memory symbol) external {
+        __ERC20_init(name, symbol);
         // mint 1B tokens (assuming 18 point decimals) back to the caller
         _mint(msg.sender, 1e27); 
+    }
+
+    /**
+     * burnMe
+     *
+     * Anyone can call this function to have the token contract burn all of the tokens
+     * out of their wallet, reducing supply. Mainly, this is called by the token factory
+     * to burn the supply that was retained in the factory.
+     */
+    function burnMe() external returns (uint256) {
+        _burn(msg.sender, balanceOf(msg.sender)); 
     }
 }
